@@ -1,8 +1,8 @@
 // custom dwm header file
-
+// To use some of the cusom keys on the keyboard, see the keysms with the command xmodmap -pk | less and search for the keysms and then assign a function to it.
 // appearance
-static const char *fonts[]              = { "DejaVu Sans Mono:size=9" };
-static const char dmenufont[]           = "DejaVu Sans Mono:size=9";
+static const char *fonts[]              = { "DejaVu Sans Mono:size=12" };
+static const char dmenufont[]           = "DejaVu Sans Mono:size=12";
 
 static const char normbordercolor[]     = "#3F403D";
 static const char normbgcolor[]         = "#D6D6D6";
@@ -45,7 +45,7 @@ static const Rule rules[] = {
     { "firefox",                "Navigator",    NULL,           1 << 1,     False,      -1 },
     { "Firefox",                "Navigator",    NULL,           1 << 1,     False,      -1 },
     // -- Office ------------------------------------------------------------------------------
-    { "MuPDF",                  NULL,           NULL,           1 << 2,     False,      -1 },
+    { "zathura",                  NULL,           NULL,           1 << 2,     False,      -1 },
     { "libreoffice",            NULL,           NULL,           1 << 2,     False,      -1 },
     // -- Graphics ----------------------------------------------------------------------------
     { "Gimp",                   NULL,           NULL,           1 << 3,     True,       -1 },
@@ -99,6 +99,7 @@ static char dmenumon[2]             = "0";  // 0: first monitor
 static const char *dmenucmd[]       = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, "-p", "Execute:", NULL };
 static const char *urxvt[]          = { "urxvtc", NULL };
 static const char *xterm[]          = { "xterm", NULL };
+static const char *chrome[]        = { "google-chrome", NULL };
 static const char *firefox[]        = { "firefox", NULL, NULL, NULL, "Firefox" };
 static const char *mc[]             = { "urxvtc", "-name", "mc", "-title", "File Manager", "-e", "mc", NULL };
 static const char *tmux[]           = { "urxvtc", "-name", "tmux", "-title", "Terminal Multiplexer", "-e", "tmux", NULL };
@@ -109,11 +110,19 @@ static const char *weechat[]        = { "urxvtc", "-name", "weechat", "-title", 
 static const char *xprop[]          = { "system-utils", "xprop", NULL };
 static const char *system_info[]    = { "system-utils", "info", NULL };
 // -- volume control -----------------------------------------------
-static const char *volume_up[]      = { "system-utils", "volume", "up", NULL };
-static const char *volume_down[]    = { "system-utils", "volume", "down", NULL };
-static const char *volume_toggle[]  = { "system-utils", "volume", "toggle", NULL };
+// from https://www.reddit.com/r/suckless/comments/c64pv8/controlling_audiobacklight_through_keys_in_dwm/
+static const char *volume_toggle[] = { "pactl", "set-sink-mute", "0", "toggle", NULL };
+static const char *volume_up[] = { "pactl", "set-sink-volume", "0", "+5%", NULL };
+static const char *volume_down[] = { "pactl", "set-sink-volume", "0", "-5%", NULL };
+// --Brightness---------
+//need to install xbacklight on ubuntu 
+// from https://www.reddit.com/r/suckless/comments/c64pv8/controlling_audiobacklight_through_keys_in_dwm/
+//also had to do this for it work https://askubuntu.com/a/1060843
+static const char *brupcmd[] = {"xbacklight", "-inc", "10", NULL };
+static const char *brdowncmd[] = {"xbacklight", "-dec", "10", NULL };
 // -- screenshot ---------------------------------------------------
-static const char *screenshot[]     = { "system-utils", "printscreen", "all", NULL };
+
+static const char *screenshot[]     = { "xfce4-screenshooter", NULL };
 static const char *selectshot[]     = { "system-utils", "printscreen", "select", NULL };
 // -- record my desktop --------------------------------------------
 static const char *rec_desk[]       = { "system-utils", "recordmydesktop", "all", NULL };
@@ -150,8 +159,8 @@ static Key keys[] = {
     { WinKey,                       XK_t,           spawn,      {.v = tmux } },
     { WinKey|ShiftMask,             XK_t,           spawn,      {.v = xterm } },
     // -- web browser --------------------------------------------------
-    { 0,                            0x1008ff18,     runorraise, {.v = firefox } },
-    { WinKey,                       XK_w,           runorraise, {.v = firefox } },
+    { 0,                            0x1008ff18,     runorraise, {.v = chrome} },
+    { WinKey,                       XK_w,           runorraise, {.v = chrome} },
     // -- file manager -------------------------------------------------
     { WinKey,                       XK_f,           spawn,      {.v = mc } },
     // -- processes ----------------------------------------------------
@@ -172,6 +181,10 @@ static Key keys[] = {
     { 0,                            0x1008ff12,     spawn,      {.v = volume_toggle } },
     { WinKey,                       XK_BackSpace,   spawn,      {.v = volume_toggle } },
     { WinKey,                       XK_KP_Multiply, spawn,      {.v = volume_toggle } },
+    // -- Brightness----------------------------------------------------
+    { 0,                            0x1008ff03,     spawn,      {.v = brdowncmd} },
+    { 0,                            0x1008ff02,     spawn,      {.v = brupcmd} },
+    
     // -- screenshots --------------------------------------------------
     { 0,                            XK_Print,       spawn,      {.v = screenshot } },
     { WinKey,                       XK_Print,       spawn,      {.v = selectshot } },
