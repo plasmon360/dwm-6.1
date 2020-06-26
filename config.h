@@ -23,7 +23,7 @@ static const int systraypinningfailfirst = 1;   // 1: if pinning fails, display 
 static const int showsystray             = 1;   // 0: no systray
 
 // tagging
-static const char *tags[] = { "Main", "Web", "Office", "Graphics", "Files", "Virtual", "Multimedia", "Fun", "Misc" };
+static const char *tags[] = { "1", "2", "3", "3", "4", "5", "6", "7", "8" };
 /* query class:instance:title for regex matching info with following command:
 xprop | awk ' /^WM_CLASS/{sub(/.* =/, "instance:"); sub(/,/, "\nclass:"); print} /^WM_NAME/{sub(/.* =/, "title:"); print}'
 */
@@ -102,7 +102,7 @@ static const char *xterm[]          = { "xterm", NULL };
 static const char *chrome[]        = { "google-chrome", NULL };
 static const char *firefox[]        = { "firefox", NULL, NULL, NULL, "Firefox" };
 static const char *mc[]             = { "urxvtc", "-name", "mc", "-title", "File Manager", "-e", "mc", NULL };
-static const char *tmux[]           = { "urxvtc", "-name", "tmux", "-title", "Terminal Multiplexer", "-e", "tmux", NULL };
+static const char *tmux[]           = { "xterm", "-e", "tmux", NULL };
 static const char *htop[]           = { "urxvtc", "-name", "htop", "-title", "System Monitor", "-e", "htop", NULL };
 static const char *mutt[]           = { "urxvtc", "-name", "mutt", "-title", "Mail Client", "-e", "mutt", NULL };
 static const char *weechat[]        = { "urxvtc", "-name", "weechat", "-title", "IRC Client", "-e", "weechat", NULL };
